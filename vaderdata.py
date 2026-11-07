@@ -51,3 +51,23 @@ def hämta_väderdata(stad):
 
     except requests.RequestException as e:
         raise Exception("Kunde inte hämta väderdata.") from e
+
+
+def omvandla_väderdata(api_svar):
+    """Omvandlar API-data till en lista med väderprognoser."""
+
+    daglig_data = api_svar["daily"]
+
+    väderprognos = []
+
+    for i in range(3):
+        dag = {
+            "datum": daglig_data["time"][i],
+            "max_temp": daglig_data["temperature_2m_max"][i],
+            "min_temp": daglig_data["temperature_2m_min"][i],
+            "nederbord": daglig_data["precipitation_sum"][i],
+        }
+
+        väderprognos.append(dag)
+
+    return väderprognos
