@@ -1,0 +1,58 @@
+from unittest.mock import patch
+
+import pytest
+
+from vaderdata import är_giltig_stad, hämta_koordinater, hämta_väderdata
+
+@pytest.mark.parametrize(
+    "stad",
+    ["Stockholm", "Göteborg", "Malmö", "Umeå", "Kiruna"]
+)
+
+def test_giltiga_städer(stad):
+    assert är_giltig_stad(stad) is True
+
+
+@pytest.mark.parametrize(
+    "stad",
+    ["London", "Oslo", "Paris", ""],
+)
+
+def test_ogiltiga_städer(stad):
+    assert är_giltig_stad(stad) is False
+
+
+def test_hämta_koordinater_stockholm():
+    result = hämta_koordinater("Stockholm")
+
+    assert result == (59.33, 18.07)
+
+def test_hämta_koordinater_ogiltig_stad():
+    result = hämta_koordinater("London")
+
+    assert result is None
+
+
+def test_hämta_väderdata():
+    """Testar att väderdata hämtas korrekt från API."""
+
+    api_svar = {
+        "current": {
+            "temperature_2m": 12.5,
+            "wind_speed_10m": 8.2,
+        },
+
+        "daily": {
+             "time": ["2026-11-07", "2026-11-08", "2026-11-09"],
+            "temperature_2m_max": [14, 13, 12],
+            "temperature_2m_min": [7, 6, 5],
+            "precipitation_sum": [0, 2, 1],
+        },
+    }
+
+    with patch("vaderdata.requests.get") as simulerad_anrop:
+        simulerad_anrop.return_value.json.return_value = api_svar
+
+        resultat = hämta_väderdata("Stockholm")
+
+        assert resultat == api_svar
