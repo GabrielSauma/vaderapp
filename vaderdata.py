@@ -1,11 +1,18 @@
 import requests
 
+
+class VäderdataFel(Exception):
+    """Fel som uppstår när väderdata inte kan hämtas."""
+
+
 # Lista med de fem giltiga städerna
 städer = ["Stockholm", "Göteborg", "Malmö", "Umeå", "Kiruna"]
+
 
 def är_giltig_stad(stad):
     """Kontrollerar om staden finns i bland de giltiga städerna."""
     return stad in städer
+
 
 # Koordinater för de fem städerna
 koordinater = {
@@ -15,6 +22,7 @@ koordinater = {
     "Umeå": (63.83, 20.26),
     "Kiruna": (67.86, 20.23),
 }
+
 
 def hämta_koordinater(stad):
     """Hämtar koordinaterna för en stad."""
@@ -50,7 +58,7 @@ def hämta_väderdata(stad):
         return svar.json()
 
     except requests.RequestException as e:
-        raise Exception("Kunde inte hämta väderdata.") from e
+        raise VäderdataFel("Kunde inte hämta väderdata.") from e
 
 
 def omvandla_väderdata(api_svar):

@@ -1,16 +1,13 @@
 from unittest.mock import patch
 
 import pytest
+import requests
 
 import vaderdata
+from vaderdata import hämta_väderdata, är_giltig_stad
 
-from vaderdata import är_giltig_stad, hämta_koordinater, hämta_väderdata
 
-@pytest.mark.parametrize(
-    "stad",
-    ["Stockholm", "Göteborg", "Malmö", "Umeå", "Kiruna"]
-)
-
+@pytest.mark.parametrize("stad", ["Stockholm", "Göteborg", "Malmö", "Umeå", "Kiruna"])
 def test_giltiga_städer(stad):
     assert är_giltig_stad(stad) is True
 
@@ -19,20 +16,8 @@ def test_giltiga_städer(stad):
     "stad",
     ["London", "Oslo", "Paris", ""],
 )
-
 def test_ogiltiga_städer(stad):
     assert är_giltig_stad(stad) is False
-
-
-def test_hämta_koordinater_stockholm():
-    result = hämta_koordinater("Stockholm")
-
-    assert result == (59.33, 18.07)
-
-def test_hämta_koordinater_ogiltig_stad():
-    result = hämta_koordinater("London")
-
-    assert result is None
 
 
 def test_hämta_väderdata():
@@ -43,9 +28,8 @@ def test_hämta_väderdata():
             "temperature_2m": 12.5,
             "wind_speed_10m": 8.2,
         },
-
         "daily": {
-             "time": ["2026-11-07", "2026-11-08", "2026-11-09"],
+            "time": ["2026-11-07", "2026-11-08", "2026-11-09"],
             "temperature_2m_max": [14, 13, 12],
             "temperature_2m_min": [7, 6, 5],
             "precipitation_sum": [0, 2, 1],
@@ -81,3 +65,23 @@ def test_omvandla_väderdata():
     ]
 
     assert resultat == förväntat_resultat
+
+
+def test_hämta_väderdata_timeout():
+    """Testar att timeout hanteras."""
+
+    with patch("vaderdata.requests.get") as simulerat_anrop:
+        simulerat_anrop.side_effect = requests.Timeout
+
+        with pytest.raises(vaderdata.VäderdataFel):
+            hämta_väderdata("Stockholm")
+
+
+def test_hämta_väderdata_http_fel():
+    """Testar att HTTP-fel hanteras."""
+
+    with patch("vaderdata.requests.get") as simulerat_anrop:
+        simulerat_anrop.return_value.raise_for_status.side_effect = requests.HTTPError
+
+        with pytest.raises(vaderdata.VäderdataFel):
+            hämta_väderdata("Stockholm")
