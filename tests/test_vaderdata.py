@@ -2,6 +2,8 @@ from unittest.mock import patch
 
 import pytest
 
+import vaderdata
+
 from vaderdata import är_giltig_stad, hämta_koordinater, hämta_väderdata
 
 @pytest.mark.parametrize(
@@ -56,3 +58,26 @@ def test_hämta_väderdata():
         resultat = hämta_väderdata("Stockholm")
 
         assert resultat == api_svar
+
+
+def test_omvandla_väderdata():
+    """Testar att väderdata omvandlas till en lista."""
+
+    api_svar = {
+        "daily": {
+            "time": ["2026-11-07", "2026-11-08", "2026-11-09"],
+            "temperature_2m_max": [14, 13, 12],
+            "temperature_2m_min": [7, 6, 5],
+            "precipitation_sum": [0, 2, 1],
+        }
+    }
+
+    resultat = vaderdata.omvandla_väderdata(api_svar)
+
+    förväntat_resultat = [
+        {"datum": "2026-11-07", "max_temp": 14, "min_temp": 7, "nederbord": 0},
+        {"datum": "2026-11-08", "max_temp": 13, "min_temp": 6, "nederbord": 2},
+        {"datum": "2026-11-09", "max_temp": 12, "min_temp": 5, "nederbord": 1},
+    ]
+
+    assert resultat == förväntat_resultat
