@@ -14,6 +14,7 @@ Installation
 
 1. Klona projektet från GitHub:
 git clone https://github.com/GabrielSauma/vaderapp.git
+cd vaderapp
 
 2. Skapa och aktivera en virtuell miljö:
 
