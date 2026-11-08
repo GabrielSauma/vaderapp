@@ -54,5 +54,12 @@ def om_sida():
     return render_template("om.html")
 
 
+# Hanterar sidor som inte finns
+@app.errorhandler(404)
+def sidan_hittades_inte(e):
+    """Visar en egen felsida när en adress inte finns."""
+    return render_template("404.html"), 404
+
+
 if __name__ == "__main__":
     app.run(debug=True)
