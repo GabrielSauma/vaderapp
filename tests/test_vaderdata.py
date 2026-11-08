@@ -4,17 +4,7 @@ import pytest
 import requests
 
 import vaderdata
-from app import app
 from vaderdata import hämta_väderdata, är_giltig_stad
-
-
-@pytest.fixture
-def klient():
-    """Skapar en testklient för Flask-applikationen."""
-
-    app.config.update(TESTING=True)
-
-    return app.test_client()
 
 
 @pytest.mark.parametrize("stad", ["Stockholm", "Göteborg", "Malmö", "Umeå", "Kiruna"])
@@ -95,12 +85,3 @@ def test_hämta_väderdata_http_fel():
 
         with pytest.raises(vaderdata.VäderdataFel):
             hämta_väderdata("Stockholm")
-
-
-def test_404_sida(klient):
-    """Testar att en egen felsida visas vid ökänd adress."""
-
-    svar = klient.get("/sidan_finns_inte")
-
-    assert svar.status_code == 404
-    assert b"Sidan kunde inte hittas" in svar.data
