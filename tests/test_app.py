@@ -2,6 +2,7 @@ from unittest.mock import patch
 
 import pytest
 
+import vaderdata
 from app import app, temperatur_text
 
 
@@ -93,3 +94,24 @@ def test_temperatur_text(temperatur, förväntat_resultat):
     resultat = temperatur_text(temperatur)
 
     assert resultat == förväntat_resultat
+
+def test_ogiltig_stad_statuskod(klient):
+    """Testar att en ogiltig stad ger statuskod 400."""
+
+    svar = klient.get("/väder?stad=London")
+
+    assert svar.status_code == 400
+    assert "Ogiltig stad" in svar.get_data(as_text=True)
+
+
+def test_api_fel_statuskod(klient):
+    """Testar att ett API-fel ger statuskod 503."""
+
+    with patch(
+        "vaderdata.hämta_väderdata",
+        side_effect=vaderdata.VäderdataFel,
+    ):
+        svar = klient.get("/väder?stad=Stockholm")
+
+    assert svar.status_code == 503
+    assert "Kunde inte hämta väderdata" in svar.get_data(as_text=True)
