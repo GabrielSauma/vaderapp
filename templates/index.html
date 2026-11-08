@@ -6,6 +6,12 @@
 </head>
 <body>
 
+{% extends "base.html" %}
+
+{% block titel %}Väderappen{% endblock %}
+
+{% block innehall %}
+
     <!-- Rubrik för väderappen -->
     <h1>Väderappen</h1>
 
@@ -26,6 +32,8 @@
         <button type="submit">Visa väder</button>
 
     </form>
+
+{% endblock %}
 
 </body>
 </html>

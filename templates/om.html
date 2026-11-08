@@ -6,6 +6,12 @@
 </head>
 <body>
 
+    {% extends "base.html" %}
+
+{% block titel %}Om väderappen{% endblock %}
+
+{% block innehall %}
+
     <!-- Rubrik för informationssidan -->
     <h1>Om väderappen</h1>
 
@@ -26,8 +32,7 @@
         <li>Kiruna</li>
     </ul>
 
-    <!-- Länk tillbaka till startsidan -->
-    <a href="{{ url_for('startsida') }}">Tillbaka till startsidan</a>
+{% endblock %}
 
 </body>
 </html>

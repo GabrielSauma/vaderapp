@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block titel %}Väderappen{% endblock %}</title>
+</head>
+<body>
+
+    <!-- Gemensam navigeringsmeny -->
+    <nav>
+        <a href="{{ url_for('startsida') }}">Startsida</a>
+        <a href="{{ url_for('om_sida') }}">Om väderappen</a>
+    </nav>
+
+    <!-- Här visas innehållet från respektive sida -->
+    {% block innehall %}
+    {% endblock %}
+
+</body>
+</html>

@@ -6,6 +6,12 @@
 </head>
 <body>
 
+    {% extends "base.html" %}
+
+{% block titel %}Vädret i {{ stad }}{% endblock %}
+
+{% block innehall %}
+
     <!-- Visar vilken stad väderinformationen gäller -->
     <h1>Vädret i {{ stad }}</h1>
 
@@ -27,8 +33,7 @@
         <p>Nederbörd: {{ dag.nederbord }} mm</p>
     {% endfor %}
 
-    <!-- Länk tillbaka till startsidan -->
-    <a href="{{ url_for('startsida') }}">Tillbaka till startsidan</a>
+{% endblock %}
 
 </body>
 </html>
