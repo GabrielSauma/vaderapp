@@ -95,6 +95,7 @@ def test_temperatur_text(temperatur, förväntat_resultat):
 
     assert resultat == förväntat_resultat
 
+
 def test_ogiltig_stad_statuskod(klient):
     """Testar att en ogiltig stad ger statuskod 400."""
 
