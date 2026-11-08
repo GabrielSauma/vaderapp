@@ -2,7 +2,7 @@ from unittest.mock import patch
 
 import pytest
 
-from app import app
+from app import app, temperatur_text
 
 
 @pytest.fixture
@@ -76,3 +76,20 @@ def test_gemensam_navigering(klient, api_svar):
 
         assert 'href="/"' in innehåll
         assert 'href="/om"' in innehåll
+
+
+@pytest.mark.parametrize(
+    "temperatur, förväntat_resultat",
+    [
+        (-2, "Minusgrader"),
+        (5, "Kallt"),
+        (15, "Milt"),
+        (23, "Varmt"),
+    ],
+)
+def test_temperatur_text(temperatur, förväntat_resultat):
+    """Testar att temperaturfiltret ger rätt beskrivning."""
+
+    resultat = temperatur_text(temperatur)
+
+    assert resultat == förväntat_resultat

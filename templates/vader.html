@@ -18,8 +18,19 @@
     <!-- Visar aktuellt väder -->
     <h2>Aktuellt väder</h2>
 
-    <p>Temperatur: {{ aktuell_väder.temperature_2m }} °C</p>
+    <p>
+    Temperatur: {{ aktuell_väder.temperature_2m }} °C
+    ({{ aktuell_väder.temperature_2m | temperatur_text }})
+    </p>
+    
     <p>Vindhastighet: {{ aktuell_väder.wind_speed_10m }} km/h</p>
+
+    <!-- Visar ett meddelande beroende på temperaturen -->
+    {% if aktuell_väder.temperature_2m < 0 %}
+        <p>Det är minusgrader ute!</p>
+    {% else %}
+        <p>Det är inte minusgrader ute.</p>
+    {% endif %}
 
     <!-- Visar väderprognosen för tre dagar -->
     <h2>Väderprognos - 3 dagar</h2>

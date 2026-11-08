@@ -6,6 +6,21 @@ import vaderdata
 app = Flask(__name__)
 
 
+# Skapar en egen Jinja2 filter som beskriver temperaturen
+@app.template_filter("temperatur_text")
+def temperatur_text(temperatur):
+    """Beskriver temperaturen med en enkel text."""
+
+    if temperatur < 0:
+        return "Minusgrader"
+    elif temperatur < 10:
+        return "Kallt"
+    elif temperatur < 20:
+        return "Milt"
+    else:
+        return "Varmt"
+
+
 # Visar startsidan där användaren kan välja stad
 @app.route("/")
 def startsida():
