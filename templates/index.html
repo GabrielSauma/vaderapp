@@ -6,39 +6,26 @@
 </head>
 <body>
 
+    <!-- Rubrik för väderappen -->
     <h1>Väderappen</h1>
 
-    <form action="/" method="get">
-    <label for="stad">Välj stad:</label>
+    <!-- Formulär där användaren väljer stad -->
+    <form action="/väder" method="get">
 
-    <select name="stad" id="stad">
-        <option value="Stockholm">Stockholm</option>
-        <option value="Göteborg">Göteborg</option>
-        <option value="Malmö">Malmö</option>
-        <option value="Umeå">Umeå</option>
-        <option value="Kiruna">Kiruna</option>
-    </select>
+        <label for="stad">Välj stad:</label>
 
-    <button type="submit">Visa väder</button>
+        <select name="stad" id="stad">
+            <option value="Stockholm">Stockholm</option>
+            <option value="Göteborg">Göteborg</option>
+            <option value="Malmö">Malmö</option>
+            <option value="Umeå">Umeå</option>
+            <option value="Kiruna">Kiruna</option>
+        </select>
+
+        <!-- Skickar den valda staden till väderrouten -->
+        <button type="submit">Visa väder</button>
+
     </form>
-
-{% if stad %}
-    <h2>Vädret i {{ stad }}</h2>
-
-    <h3>Aktuellt väder</h3>
-
-    <p>Temperatur: {{ aktuell_väder.temperature_2m }} °C</p>
-    <p>Vindhastighet: {{ aktuell_väder.wind_speed_10m }} km/h</p>
-
-    <h3>Väderprognos – 3 dagar</h3>
-
-    {% for dag in prognos %}
-        <h4>{{ dag.datum }}</h4>
-        <p>Högsta temperatur: {{ dag.max_temp }} °C</p>
-        <p>Lägsta temperatur: {{ dag.min_temp }} °C</p>
-        <p>Nederbörd: {{ dag.nederbord }} mm</p>
-    {% endfor %}
-{% endif %}
 
 </body>
 </html>

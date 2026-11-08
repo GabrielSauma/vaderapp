@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <title>Vädret i {{ stad }}</title>
+</head>
+<body>
+
+    <!-- Visar vilken stad väderinformationen gäller -->
+    <h1>Vädret i {{ stad }}</h1>
+
+    <!-- Visar aktuellt väder -->
+    <h2>Aktuellt väder</h2>
+
+    <p>Temperatur: {{ aktuell_väder.temperature_2m }} °C</p>
+    <p>Vindhastighet: {{ aktuell_väder.wind_speed_10m }} km/h</p>
+
+    <!-- Visar väderprognosen för tre dagar -->
+    <h2>Väderprognos - 3 dagar</h2>
+
+    {% for dag in prognos %}
+        {# Visar datum för varje dag #}
+        <h3>{{ dag.datum }}</h3>
+
+        <p>Högsta temperatur: {{ dag.max_temp }} °C</p>
+        <p>Lägsta temperatur: {{ dag.min_temp }} °C</p>
+        <p>Nederbörd: {{ dag.nederbord }} mm</p>
+    {% endfor %}
+
+    <!-- Länk tillbaka till startsidan -->
+    <a href="{{ url_for('startsida') }}">Tillbaka till startsidan</a>
+
+</body>
+</html>

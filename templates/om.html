@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <title>Om väderappen</title>
+</head>
+<body>
+
+    <!-- Rubrik för informationssidan -->
+    <h1>Om väderappen</h1>
+
+    <!-- Beskrivning av väderappen -->
+    <p>
+        Den här väderappen visar aktuellt väder och en
+        väderprognos för tre dagar.
+    </p>
+
+    <!-- Visar vilka städer användaren kan välja -->
+    <h2>Tillgängliga städer</h2>
+
+    <ul>
+        <li>Stockholm</li>
+        <li>Göteborg</li>
+        <li>Malmö</li>
+        <li>Umeå</li>
+        <li>Kiruna</li>
+    </ul>
+
+    <!-- Länk tillbaka till startsidan -->
+    <a href="{{ url_for('startsida') }}">Tillbaka till startsidan</a>
+
+</body>
+</html>
