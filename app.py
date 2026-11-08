@@ -38,17 +38,17 @@ def vädersida():
 
     # Kontrollerar om en giltig stad har valts
     if not vaderdata.är_giltig_stad(stad):
-        return "Ogiltig stad"
+        return "Ogiltig stad", 400
 
     try:
         # Hämtar väderdata från api
         väderdata_resultat = vaderdata.hämta_väderdata(stad)
 
     except vaderdata.VäderdataFel:
-        return "Kunde inte hämta väderdata"
+        return "Kunde inte hämta väderdata", 503
 
     if väderdata_resultat is None:
-        return "Kunde inte hitta staden"
+        return "Kunde inte hitta staden", 404
 
     # Omvandlar api data till en väderprognos
     prognos = vaderdata.omvandla_väderdata(väderdata_resultat)
